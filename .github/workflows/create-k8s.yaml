@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create k8s cluster
-        uses: ./.github/actions/create-cluster-actionactions@v1
+        uses: ./.github/actions/create-cluster-action@v1
         id: create-cluster
         env:
           DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DigitalOceanToken }}
