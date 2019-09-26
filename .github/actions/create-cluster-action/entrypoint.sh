@@ -10,4 +10,5 @@ echo "Creating k8s cluster: ${NAME}"
 /app/doctl kubernetes cluster create ${NAME}
 /app/doctl kubernetes cluster kubeconfig save ${NAME}
 
-::add-path::/github/home/.kube
+echo ::add-path::/github/home/.kube
+echo ::set-env name=action_state::yellow
