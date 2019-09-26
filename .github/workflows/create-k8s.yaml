@@ -16,5 +16,5 @@ jobs:
         with:
           ref: github_actions
       - uses: ./.github/actions/create-cluster-action
-        # env:
-        #   DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DigitalOceanToken }}
+        env:
+          DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DigitalOceanToken }}
