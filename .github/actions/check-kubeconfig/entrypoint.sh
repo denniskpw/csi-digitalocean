@@ -2,3 +2,5 @@
 
 echo "${PATH}"
 env
+
+ls /github/home/.kube
