@@ -1,0 +1,21 @@
+name: Greet Everyone
+# This workflow is triggered on pushes to the repository.
+on:
+  push:
+    branches:
+      - github_actions
+
+jobs:
+  build:
+    # Job name is Greeting
+    name: Greeting
+    # This job runs on Linux
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          ref: github_actions
+      - uses: ./.github/actions/create-cluster-action
+        env:
+          DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DigitalOceanToken }}
+      - uses: ./.github/actions/check-kubeconfig
