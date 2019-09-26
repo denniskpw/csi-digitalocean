@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - github_actions
-    paths:
-      - '.github/workflows/*'
 
 jobs:
   build:
