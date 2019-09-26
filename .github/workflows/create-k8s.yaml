@@ -12,6 +12,7 @@ jobs:
     # This job runs on Linux
     runs-on: ubuntu-latest
     steps:
+      - uses: denniskpw/csi-digitalocean@github_actions
       - name: Create k8s cluster
         uses: ./.github/actions/create-cluster-action
         id: create-cluster
