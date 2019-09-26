@@ -1,3 +1,3 @@
 #!/bin/sh -l
 
-ls /github/home/.kube
+ls -al /github/home/.kube
