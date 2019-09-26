@@ -1,0 +1,21 @@
+name: Greet Everyone
+# This workflow is triggered on pushes to the repository.
+on:
+  push:
+    branches:
+      - github_actions
+    paths:
+      - '.github/workflows/*'
+
+jobs:
+  build:
+    # Job name is Greeting
+    name: Greeting
+    # This job runs on Linux
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create k8s cluster
+        uses: ./.github/actions/create-cluster-actionactions@v1
+        id: create-cluster
+        env:
+          DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DigitalOceanToken }}
