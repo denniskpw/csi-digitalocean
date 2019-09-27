@@ -1,4 +1,4 @@
-name: Greet Everyone
+name: DOKS Create/Delete
 # This workflow is triggered on pushes to the repository.
 on:
   push:
