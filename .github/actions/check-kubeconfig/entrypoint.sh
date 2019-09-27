@@ -1,3 +1,3 @@
 #!/bin/sh -l
 
-ls -al /github/home/.kube
+ls -al ${GITHUB_WORKSPACE}
