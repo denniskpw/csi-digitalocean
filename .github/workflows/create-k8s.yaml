@@ -12,15 +12,18 @@ jobs:
     # This job runs on Linux
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-        with:
-          ref: github_actions
+      # - uses: actions/checkout@master
+      #   with:
+      #     ref: github_actions
       - name: Create cluster
         id: cluster
         uses: denniskpw/doks-actions/create-cluster@master
         env:
           DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DigitalOceanToken }}
-      - uses: ./.github/actions/check-kubeconfig
+      # - uses: ./.github/actions/check-kubeconfig
+      - name: Check for presence of kubeconfig
+        run: |-
+          ls -al ${GITHUB_WORKSPACE}
       - name: Delete cluster
         if: always()
         uses: denniskpw/doks-actions/delete-cluster@master
