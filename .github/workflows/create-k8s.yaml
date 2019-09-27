@@ -15,7 +15,15 @@ jobs:
       - uses: actions/checkout@master
         with:
           ref: github_actions
-      - uses: denniskpw/doks-actions/create-cluster@master
+      - name: Create cluster
+        uses: denniskpw/doks-actions/create-cluster@master
         env:
           DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DigitalOceanToken }}
       - uses: ./.github/actions/check-kubeconfig
+      - name: Delete cluster
+        if: always()
+        uses: denniskpw/doks-actions/delete-cluster@master
+        env:
+          DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DigitalOceanToken }}
+        with:
+          CLUSTER_ID: ${{ steps.cluster.outputs.CLUSTER_ID }}
