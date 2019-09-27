@@ -16,6 +16,7 @@ jobs:
         with:
           ref: github_actions
       - name: Create cluster
+        id: cluster
         uses: denniskpw/doks-actions/create-cluster@master
         env:
           DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DigitalOceanToken }}
