@@ -26,19 +26,30 @@ jobs:
         DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DigitalOceanToken }}
     - name: deploy test version to DOKS
       run: |-
+        function kubectl_get_all() {
+          kubectl --kubeconfig=${GITHUB_WORKSPACE}/kubeconfig -n kube-system get all
+        }
+        trap kubectl_get_all EXIT
+
+        echo "access-token=${DIGITALOCEAN_ACCESS_TOKEN}" > token.env
+        echo "\"${GH_PACKAGES_TOKEN}\"" | jq '{ "auths": { "docker.pkg.github.com": { "auth": . } } }' > dockerconfig.json
+        kubectl --kubeconfig=${GITHUB_WORKSPACE}/kubeconfig -n kube-system create secret generic registrycreds --from-file=.dockerconfigjson=dockerconfig.json --type=kubernetes.io/dockerconfigjson
+        kubectl --kubeconfig=${GITHUB_WORKSPACE}/kubeconfig -n kube-system create secret generic digitalocean --from-env-file=token.env
+
         cd test/kubernetes/deploy
         curl -Lo ./kustomize "https://github.com/kubernetes-sigs/kustomize/releases/download/v3.2.0/kustomize_3.2.0_linux_amd64"
         chmod 755 kustomize
+
         ./kustomize edit set image digitalocean/do-csi-plugin:dev="${IMAGE_NAME}"
         ./kustomize build . --load_restrictor none | kubectl --kubeconfig=${GITHUB_WORKSPACE}/kubeconfig apply -f -
-        echo "access-token=${DIGITALOCEAN_ACCESS_TOKEN}" > token.env
-        kubectl --kubeconfig=${GITHUB_WORKSPACE}/kubeconfig -n kube-system create secret generic digitalocean --from-env-file=token.env
-        kubectl --kubeconfig=${GITHUB_WORKSPACE}/kubeconfig -n kube-system get all
+        kubectl_get_all
+
         kubectl --kubeconfig=${GITHUB_WORKSPACE}/kubeconfig -n kube-system wait --timeout=5m --for=condition=Ready pod -l app=csi-do-controller-dev
         kubectl --kubeconfig=${GITHUB_WORKSPACE}/kubeconfig -n kube-system wait --timeout=5m --for=condition=Ready pod -l app=csi-do-node-dev
       env:
         IMAGE_NAME: ${{ steps.docker.outputs.IMAGE_SHA_NAME }}
         DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DigitalOceanToken }}
+        GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
     - name: run integration tests
       run: |-
         go test -v -tags integration ./test/kubernetes

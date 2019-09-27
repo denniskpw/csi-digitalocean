@@ -30,6 +30,8 @@ patchesStrategicMerge:
           - --token=$(DIGITALOCEAN_ACCESS_TOKEN)
           - --url=$(DIGITALOCEAN_API_URL)
           - --driver-name=dobs.csi.digitalocean.com-dev
+        imagePullSecrets:
+        - name: registrycreds
 - |-
   apiVersion: apps/v1beta2
   kind: DaemonSet
@@ -64,6 +66,8 @@ patchesStrategicMerge:
                 - /bin/sh
                 - -c
                 - rm -rf /registration/dobs.csi.digitalocean.com-dev /registration/dobs.csi.digitalocean.com-dev-reg.sock
+        imagePullSecrets:
+        - name: registrycreds
         volumes:
         - name: plugin-dir
           hostPath:
