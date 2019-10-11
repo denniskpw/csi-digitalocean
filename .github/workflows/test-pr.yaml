@@ -40,11 +40,16 @@ jobs:
         curl -Lo ./kustomize "https://github.com/kubernetes-sigs/kustomize/releases/download/v3.2.0/kustomize_3.2.0_linux_amd64"
         chmod 755 kustomize
 
+        echo "edit set image"
         ./kustomize edit set image digitalocean/do-csi-plugin:dev="${IMAGE_NAME}"
+        echo "build"
         ./kustomize build . --load_restrictor none | kubectl --kubeconfig=${GITHUB_WORKSPACE}/kubeconfig apply -f -
+        echo "get all"
         kubectl_get_all
 
+        echo "wait csi-do-controller-dev"
         kubectl --kubeconfig=${GITHUB_WORKSPACE}/kubeconfig -n kube-system wait --timeout=5m --for=condition=Ready pod -l app=csi-do-controller-dev
+        echo "wait csi-do-node-dev"
         kubectl --kubeconfig=${GITHUB_WORKSPACE}/kubeconfig -n kube-system wait --timeout=5m --for=condition=Ready pod -l app=csi-do-node-dev
       env:
         IMAGE_NAME: ${{ steps.docker.outputs.IMAGE_SHA_NAME }}
