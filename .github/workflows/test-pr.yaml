@@ -14,7 +14,7 @@ jobs:
       uses: adamwg/gpr-docker-publish@master
       id: docker
       with:
-        USERNAME: adamwg
+        USERNAME: denniskpw
         PASSWORD: ${{ secrets.GH_PACKAGES_TOKEN }}
         IMAGE_NAME: do-csi-plugin
         BUILD_CONTEXT: cmd/do-csi-plugin
