@@ -60,10 +60,10 @@ jobs:
         go test -v -tags integration ./test/kubernetes
       env:
         TEST_STORAGE_CLASS: do-block-storage-dev
-    - name: delete cluster
-      if: always()
-      uses: ./.github/actions/delete-cluster-action
-      env:
-        DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DigitalOceanToken }}
-      with:
-        CLUSTER_ID: ${{ steps.cluster.outputs.CLUSTER_ID }}
+    # - name: delete cluster
+    #   if: always()
+    #   uses: ./.github/actions/delete-cluster-action
+    #   env:
+    #     DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DigitalOceanToken }}
+    #   with:
+    #     CLUSTER_ID: ${{ steps.cluster.outputs.CLUSTER_ID }}
