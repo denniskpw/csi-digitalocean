@@ -15,7 +15,7 @@ jobs:
       id: docker
       with:
         USERNAME: denniskpw
-        PASSWORD: ${{ secrets.GH_PACKAGES_TOKEN }}
+        PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         IMAGE_NAME: do-csi-plugin
         BUILD_CONTEXT: cmd/do-csi-plugin
         DOCKERFILE_PATH: cmd/do-csi-plugin/Dockerfile
