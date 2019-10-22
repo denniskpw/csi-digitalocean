@@ -9,7 +9,7 @@ jobs:
       run: |-
         VERSION="$(cat VERSION)-dev"
         LDFLAGS="-X github.com/digitalocean/csi-digitalocean/driver.version=${VERSION} -X github.com/digitalocean/csi-digitalocean/driver.commit=${GITHUB_SHA} -X github.com/digitalocean/csi-digitalocean/driver.gitTreeState=clean"
-        go build -o cmd/do-csi-plugin/do-csi-plugin -ldflags "$LDFLAGS" ./cmd/do-csi-plugin
+        CGO_ENABLED=0 go build -o cmd/do-csi-plugin/do-csi-plugin -ldflags "$LDFLAGS" ./cmd/do-csi-plugin
     - name: build and publish test docker image
       uses: adamwg/gpr-docker-publish@master
       id: docker
