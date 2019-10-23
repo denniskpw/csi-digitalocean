@@ -57,10 +57,9 @@ jobs:
         GH_PACKAGES_TOKEN: ${{ secrets.GH_PACKAGES_TOKEN }}
     - name: run integration tests
       run: |-
-        go test -v -tags integration ./test/kubernetes
+        KUBECONFIG=${GITHUB_WORKSPACE}/kubeconfig go test -v -tags integration ./test/kubernetes
       env:
         TEST_STORAGE_CLASS: do-block-storage-dev
-        KUBECONFIG: ${GITHUB_WORKSPACE}/kubeconfig
     # - name: delete cluster
     #   if: always()
     #   uses: ./.github/actions/delete-cluster-action
