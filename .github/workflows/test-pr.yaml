@@ -60,6 +60,7 @@ jobs:
         go test -v -tags integration ./test/kubernetes
       env:
         TEST_STORAGE_CLASS: do-block-storage-dev
+        KUBECONFIG: ${GITHUB_WORKSPACE}/kubeconfig
     # - name: delete cluster
     #   if: always()
     #   uses: ./.github/actions/delete-cluster-action
